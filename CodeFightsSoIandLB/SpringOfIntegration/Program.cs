@@ -13,13 +13,7 @@ namespace SpringOfIntegration
             //foreach (var VARIABLE in arrayPreviousLess(new []{ 3, 5, 2, 4, 5 }))
             //    Console.WriteLine(VARIABLE);
 
-            Console.WriteLine(pairOfShoes(new []
-            {
-                new []{0,21},
-                new []{1,23},
-                new []{1,21},
-                new []{0,23}
-            }));
+            Console.WriteLine(cyclicString("cabca"));
             Console.ReadKey();
         }
         public static int arrayConversion(int[] inputArray)
@@ -29,7 +23,7 @@ namespace SpringOfIntegration
 
             while (true)
             {
-                if(listProduct.Count==1) return listProduct[0];
+                if (listProduct.Count == 1) return listProduct[0];
                 for (int i = 0; i < listProduct.Count; i++)
                     if (i % 2 == 0) listPlus.Add(listProduct[i] + listProduct[i + 1]);
 
@@ -37,7 +31,7 @@ namespace SpringOfIntegration
 
                 if (listPlus.Count == 1) return listPlus[0];
                 for (int i = 0; i < listPlus.Count; i++)
-                    if (i % 2 == 0) listProduct.Add(listPlus[i] * listPlus[i + 1]); 
+                    if (i % 2 == 0) listProduct.Add(listPlus[i] * listPlus[i + 1]);
 
                 listPlus.Clear();
             }
@@ -59,19 +53,19 @@ namespace SpringOfIntegration
         }
         public static int[] arrayPreviousLess(int[] items)
         {
-            var list = new List<int> {-1};
+            var list = new List<int> { -1 };
             int j;
             for (int i = 1; i < items.Length; i++)
             {
                 j = i;
-                while (j>0)
+                while (j > 0)
                 {
                     j--;
                     if (items[j] >= items[i]) continue;
                     list.Add(items[j]);
                     break;
                 }
-                if(list.Count<i+1) list.Add(-1);
+                if (list.Count < i + 1) list.Add(-1);
             }
             return list.ToArray();
 
@@ -90,7 +84,45 @@ namespace SpringOfIntegration
         }
         public static int combs(string comb1, string comb2)
         {
+            var l1 = comb1.Split('*').ToList();
+            var l2 = comb2.Split('*').ToList();
+            if (l1.Any(z => z.Length >= comb2.Length) || l2.Any(z => z.Length >= comb1.Length)) return Math.Max(comb1.Length, comb2.Length);
+            var len1 = l1.Select(x => x.Length).ToList();
+            var len2 = l2.Select(x => x.Length).ToList();
+            len1.Sort();
+            len2.Sort();
 
+            var d1 = len1.Max();
+            var d2 = len2.Max();
+            for (int i = Math.Max(d1, d2) - 1; i > 0; i--)
+                if (len1.Contains(i) && len2.Contains(i)) return Math.Max(comb1.Length, comb2.Length) + Math.Min(comb1.Length, comb2.Length) - i - 1;
+
+            return Math.Max(comb1.Length, comb2.Length) + Math.Min(comb1.Length, comb2.Length) - Math.Min(d1, d2) - 1;
+        }       //TODO hidden tests doesn't pass
+        public static int stringsCrossover(string[] inputArray, string result)
+        {
+            var pairs = 0;
+            for (var i = 0; i < inputArray.Length - 1; i++)
+            {
+                for (var j = i + 1; j < inputArray.Length; j++)
+                    if (!inputArray[i].Where((t, index) => result[index] != t && result[index] != inputArray[j][index]).Any()) pairs++;
+            }
+            return pairs;
+        }
+        public static int cyclicString(string s)
+        {
+            var repeatingPhrase = new List<char> {s[0]};
+            var n = s.Length / repeatingPhrase.Count + 1;
+            repeatingPhrase.RemoveAt(0);
+            var list = new List<char>();
+            foreach (var character in s)
+            {
+                repeatingPhrase.Add(character);
+                list.AddRange(Enumerable.Repeat(repeatingPhrase,n).SelectMany(x=>x));
+                if (new string(list.ToArray()).Contains(s)) return repeatingPhrase.Count;
+                list.Clear();
+            }
+            return -1;
         }
     }
 }
