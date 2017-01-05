@@ -13,7 +13,7 @@ namespace SpringOfIntegration
             //foreach (var VARIABLE in arrayPreviousLess(new []{ 3, 5, 2, 4, 5 }))
             //    Console.WriteLine(VARIABLE);
 
-            Console.WriteLine(cyclicString("cabca"));
+            Console.WriteLine(beautifulText("aa aa aaaaa aaaaa aaaaa", 6, 11));
             Console.ReadKey();
         }
         public static int arrayConversion(int[] inputArray)
@@ -111,18 +111,31 @@ namespace SpringOfIntegration
         }
         public static int cyclicString(string s)
         {
-            var repeatingPhrase = new List<char> {s[0]};
+            var repeatingPhrase = new List<char> { s[0] };
             var n = s.Length / repeatingPhrase.Count + 1;
             repeatingPhrase.RemoveAt(0);
             var list = new List<char>();
             foreach (var character in s)
             {
                 repeatingPhrase.Add(character);
-                list.AddRange(Enumerable.Repeat(repeatingPhrase,n).SelectMany(x=>x));
+                list.AddRange(Enumerable.Repeat(repeatingPhrase, n).SelectMany(x => x));
                 if (new string(list.ToArray()).Contains(s)) return repeatingPhrase.Count;
                 list.Clear();
             }
             return -1;
+        }
+        public static bool beautifulText(string inputString, int l, int r)
+        {
+            var initialL = l;
+            while (r + 1 >= l)
+            {
+                var list1 = inputString.Where((x, i) => (i + 1) % l == 0 && i != 0).ToList();
+                var textWidth = l - 1;
+                var textFits = textWidth >= initialL && textWidth <= r;
+                if (list1.All(x => x == ' ') && (inputString.Length - list1.Count) % (l - 1) == 0 && textFits) return true;
+                ++l;
+            }
+            return false;
         }
     }
 }
