@@ -10,7 +10,7 @@ namespace SpringOfIntegration
     {
         static void Main(string[] args)
         {
-            foreach (var VARIABLE in christmasTree(2, 4))
+            foreach (var VARIABLE in fileNaming(new[] { "a(1)", "a(6)", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a" }))
                 Console.WriteLine(VARIABLE);
 
             //Console.WriteLine(runnersMeetings(new[] {1, 4, 2}, new[] {27, 18, 24}));
@@ -203,7 +203,25 @@ namespace SpringOfIntegration
             }
             crown.AddRange(levels);
             crown.AddRange(foot);
-            return crown.Select(x => x.Insert(0,new string(' ',(maxLength-x.Length)/2))).ToArray();
+            return crown.Select(x => x.Insert(0, new string(' ', (maxLength - x.Length) / 2))).ToArray();
+        }
+        public static string[] fileNaming(string[] names)
+        {
+            var n = 0;
+            for (int i = 0; i < names.Length - 1; i++)
+            {
+                for (int j = i + 1; j < names.Length; j++)
+                {
+                    if (names[j] == names[i])
+                    {
+                        while (names.ToList().GetRange(0,j).Contains(string.Format("{0}({1})", names[i], n + 1))) ++n;
+                        names[j] = string.Format("{0}({1})", names[i], ++n);
+                    }
+                    n = 0;
+                }
+                n = 0;
+            }
+            return names;
         }
     }
 }
