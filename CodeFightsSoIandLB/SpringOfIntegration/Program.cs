@@ -10,12 +10,14 @@ namespace SpringOfIntegration
     {
         static void Main(string[] args)
         {
-            //foreach (var VARIABLE in arrayPreviousLess(new []{ 3, 5, 2, 4, 5 }))
-            //    Console.WriteLine(VARIABLE);
+            foreach (var VARIABLE in christmasTree(2, 4))
+                Console.WriteLine(VARIABLE);
 
-            Console.WriteLine(beautifulText("aa aa aaaaa aaaaa aaaaa", 6, 11));
+            //Console.WriteLine(runnersMeetings(new[] {1, 4, 2}, new[] {27, 18, 24}));
+
             Console.ReadKey();
         }
+
         public static int arrayConversion(int[] inputArray)
         {
             var listPlus = new List<int>();
@@ -51,6 +53,7 @@ namespace SpringOfIntegration
             //}
             //return inputArray[0];
         }
+
         public static int[] arrayPreviousLess(int[] items)
         {
             var list = new List<int> { -1 };
@@ -71,10 +74,13 @@ namespace SpringOfIntegration
 
             //return Enumerable.Range(0, items.Length).Select(i => items.Take(i).Reverse().FirstOrDefault(p => p < items[i])).Select(n => n > 0 ? n : -1).ToArray();
         }
+
         public static bool pairOfShoes(int[][] shoes)
         {
             var size = shoes.Select(x => x[1]).Distinct().ToList();
-            return size.Select(t => shoes.Where(x => x[1] == t).Select(y => y[0])).All(r => r.Count(x => x == 0) == r.Count(y => y == 1));
+            return
+                size.Select(t => shoes.Where(x => x[1] == t).Select(y => y[0]))
+                    .All(r => r.Count(x => x == 0) == r.Count(y => y == 1));
 
             //return shoes.GroupBy(s1 => s1[1])
             //    .Select(g => new { d = g.Count(a => a[0] == 1), i = g.Count(a => a[0] == 0) })
@@ -82,11 +88,13 @@ namespace SpringOfIntegration
 
             //return shoes.GroupBy(s => s[1]).All(g => g.Count(s => s[0] == 0) == g.Count(s => s[0] == 1));
         }
+
         public static int combs(string comb1, string comb2)
         {
             var l1 = comb1.Split('*').ToList();
             var l2 = comb2.Split('*').ToList();
-            if (l1.Any(z => z.Length >= comb2.Length) || l2.Any(z => z.Length >= comb1.Length)) return Math.Max(comb1.Length, comb2.Length);
+            if (l1.Any(z => z.Length >= comb2.Length) || l2.Any(z => z.Length >= comb1.Length))
+                return Math.Max(comb1.Length, comb2.Length);
             var len1 = l1.Select(x => x.Length).ToList();
             var len2 = l2.Select(x => x.Length).ToList();
             len1.Sort();
@@ -95,20 +103,25 @@ namespace SpringOfIntegration
             var d1 = len1.Max();
             var d2 = len2.Max();
             for (int i = Math.Max(d1, d2) - 1; i > 0; i--)
-                if (len1.Contains(i) && len2.Contains(i)) return Math.Max(comb1.Length, comb2.Length) + Math.Min(comb1.Length, comb2.Length) - i - 1;
+                if (len1.Contains(i) && len2.Contains(i))
+                    return Math.Max(comb1.Length, comb2.Length) + Math.Min(comb1.Length, comb2.Length) - i - 1;
 
             return Math.Max(comb1.Length, comb2.Length) + Math.Min(comb1.Length, comb2.Length) - Math.Min(d1, d2) - 1;
-        }       //TODO hidden tests doesn't pass
+        } //TODO hidden tests doesn't pass
+
         public static int stringsCrossover(string[] inputArray, string result)
         {
             var pairs = 0;
             for (var i = 0; i < inputArray.Length - 1; i++)
             {
                 for (var j = i + 1; j < inputArray.Length; j++)
-                    if (!inputArray[i].Where((t, index) => result[index] != t && result[index] != inputArray[j][index]).Any()) pairs++;
+                    if (
+                        !inputArray[i].Where((t, index) => result[index] != t && result[index] != inputArray[j][index])
+                            .Any()) pairs++;
             }
             return pairs;
         }
+
         public static int cyclicString(string s)
         {
             var repeatingPhrase = new List<char> { s[0] };
@@ -124,6 +137,7 @@ namespace SpringOfIntegration
             }
             return -1;
         }
+
         public static bool beautifulText(string inputString, int l, int r)
         {
             var initialL = l;
@@ -132,10 +146,64 @@ namespace SpringOfIntegration
                 var list1 = inputString.Where((x, i) => (i + 1) % l == 0 && i != 0).ToList();
                 var textWidth = l - 1;
                 var textFits = textWidth >= initialL && textWidth <= r;
-                if (list1.All(x => x == ' ') && (inputString.Length - list1.Count) % (l - 1) == 0 && textFits) return true;
+                if (list1.All(x => x == ' ') && (inputString.Length - list1.Count) % (l - 1) == 0 && textFits)
+                    return true;
                 ++l;
             }
             return false;
+        }
+
+        public static int runnersMeetings(int[] startPosition, int[] speed)
+        {
+            double t;
+            double s;
+            var meet = new List<int>();
+            for (var i = 0; i < startPosition.Length - 1; i++)
+            {
+                for (var j = i + 1; j < startPosition.Length; j++)
+                {
+                    if ((startPosition[i] < startPosition[j] && speed[i] <= speed[j]) ||
+                        (startPosition[i] > startPosition[j] && speed[i] >= speed[j])) continue;
+                    t = Math.Abs(((double)startPosition[j] - startPosition[i]) / (speed[i] - speed[j]));
+                    s = speed[j] * t + (startPosition[j] - startPosition[i]);
+                    meet.Add(
+                        startPosition.Where(
+                                (x, index) => x - startPosition[i] + speed[index] * t == s && index != i && index != j)
+                            .Count() + 2);
+                }
+            }
+            return meet.Count == 0 ? -1 : meet.Max();
+        }
+
+        public static string[] christmasTree(int levelNum, int levelHeight)
+        {
+            var crown = new List<string> { "*", "*", "***" };
+            var fl = 5;
+            var lnuminit = levelNum;
+            var maxLength = (levelNum - 1) * 2 + fl + (levelHeight - 1) * 2;
+            var levels = new List<string>();
+            while (levelNum > 0)
+            {
+                for (var i = 0; i < levelHeight; i++)
+                    levels.Add(new string('*', fl + i * 2));
+
+                fl += 2;
+                --levelNum;
+            }
+            var foot = new List<string>();
+            if (levelHeight % 2 == 1)
+            {
+                for (var i = 0; i < lnuminit; i++)
+                    foot.Add(new string('*', levelHeight));
+            }
+            else
+            {
+                for (var i = 0; i < lnuminit; i++)
+                    foot.Add(new string('*', levelHeight + 1));
+            }
+            crown.AddRange(levels);
+            crown.AddRange(foot);
+            return crown.Select(x => x.Insert(0,new string(' ',(maxLength-x.Length)/2))).ToArray();
         }
     }
 }
