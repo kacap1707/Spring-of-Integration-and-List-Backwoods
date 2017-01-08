@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpringOfIntegration", "SpringOfIntegration\SpringOfIntegration.csproj", "{F1D3D9D9-DC76-40E0-9E6A-97649308DDDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListBackwoods", "ListBackwoods\ListBackwoods.csproj", "{D4C9F919-0423-40B6-8EB4-60D5F0CD6FDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F1D3D9D9-DC76-40E0-9E6A-97649308DDDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1D3D9D9-DC76-40E0-9E6A-97649308DDDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1D3D9D9-DC76-40E0-9E6A-97649308DDDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4C9F919-0423-40B6-8EB4-60D5F0CD6FDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4C9F919-0423-40B6-8EB4-60D5F0CD6FDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4C9F919-0423-40B6-8EB4-60D5F0CD6FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4C9F919-0423-40B6-8EB4-60D5F0CD6FDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
