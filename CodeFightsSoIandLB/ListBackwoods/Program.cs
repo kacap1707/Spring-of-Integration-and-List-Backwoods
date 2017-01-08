@@ -17,12 +17,19 @@ namespace ListBackwoods
                     new[] { "Player4", "empty", "Player2" },
                     new[] { "empty", "Player3", "empty" },
                     new[] { "Player6", "empty", "Player1" }
-                },2))
+                }, 2))
             {
                 foreach (var i in VARIABLE)
                     Console.Write(i + " ");
                 Console.WriteLine();
             }
+            Console.Title = "My Rocking App";
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.WriteLine(new string('*', 50));
+            Console.WriteLine("**********   Welcome to My Rocking App  **********");
+            Console.WriteLine(new string('*', 50));
+            Console.BackgroundColor = ConsoleColor.Black;
 
             Console.WriteLine();
             Console.ReadKey();
@@ -163,8 +170,33 @@ namespace ListBackwoods
         }
         public static string[][] volleyballPositions(string[][] formation, int k)
         {
-            var queue = new Queue<string>();
-            queue.
+            var xs = new List<int> { 3, 1, 0, 1, 3, 2 };
+            var ys = new List<int> { 2, 2, 1, 0, 0, 1 };
+            var order = new List<string> { formation[3][2], formation[1][2], formation[0][1], formation[1][0], formation[3][0], formation[2][1] };
+            string temp;
+            var n = k % 6;
+            for (var i = 0; i < n; i++)
+            {
+                temp = order[order.Count - 1];
+                order.RemoveAt(order.Count - 1);
+                order.Insert(0, temp);
+            }
+            for (int i = 0; i < xs.Count; i++)
+                formation[xs[i]][ys[i]] = order[i];
+
+            return formation;
+            //k = k % 6;
+            //for (var i = 0; i < k; i++)
+            //{
+            //    var tmp = formation[0][1];
+            //    formation[0][1] = formation[1][2];
+            //    formation[1][2] = formation[3][2];
+            //    formation[3][2] = formation[2][1];
+            //    formation[2][1] = formation[3][0];
+            //    formation[3][0] = formation[1][0];
+            //    formation[1][0] = tmp;
+            //}
+            //return formation;
         }
     }
 }
